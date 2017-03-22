@@ -106,12 +106,6 @@ npms=(
   webpack
 )
 
-clibs=(
-)
-
-bkpgs=(
-)
-
 git_configs=(
 
 )
@@ -137,12 +131,6 @@ apms=(
   terminal-plus
 )
 
-fonts=(
-)
-
-omfs=(
-)
-
 ######################################## End of app list ########################################
 set +e
 #set -x
@@ -161,7 +149,6 @@ fi
 brew doctor
 
 echo "Tapping casks ..."
-#brew tap caskroom/fonts
 brew tap caskroom/versions
 brew tap homebrew/dupes
 brew tap caskroom/cask
@@ -217,14 +204,11 @@ install 'brew cask install' ${casks[@]}
 #nvm use default
 
 echo "Installing secondary packages ..."
-# TODO: add info part of install or do reinstall?
 #install 'pip install --upgrade' ${pips[@]}
 #install 'gem install' ${gems[@]}
-#install 'clib install' ${clibs[@]}
-#install 'bpkg install' ${bpkgs[@]}
-install 'npm install --global' ${npms[@]}
+# TODO: Fix this based on nvm above
+#install 'npm install --global' ${npms[@]}
 install 'apm install' ${apms[@]}
-#install 'brew cask install' ${fonts[@]}
 
 echo "Upgrading bash ..."
 brew install bash
@@ -243,7 +227,6 @@ source ~/.bash_profile
 #gpg --keyserver hkp://pgp.mit.edu --recv ${gpg_key}
 
 echo "Installing mac CLI ..."
-# Note: Say NO to bash-completions since we have fzf!
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/guarinogabriel/mac-cli/master/mac-cli/tools/install)"
 
 echo "Final Updating ..."
