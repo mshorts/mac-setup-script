@@ -1,170 +1,151 @@
 #!/usr/bin/env bash
 
+#Set the versions you want installed and set to default in nvm/rvm
+node_version='6.10.0'
+ruby_version='2.6.0'
+
 brews=(
-  android-platform-tools
-  archey
-  aws-shell
-  cheat
-  clib
+  autoconf
+  automake
+  c-ares
+  cairo
+  cask
   coreutils
-  dfc             # disk viz
-  findutils
-  fontconfig --universal
-  fpp
+  csshx
+  dirmngr
+  emacs
+  fontconfig
+  freetype
   fzf
+  gcc
+  gettext
   git
   git-extras
-  git-lfs
-  gnuplot --with-qt
-  go
-  hh
-  htop
-  httpie
-  iftop
-  imagemagick
-  lighttpd
-  lnav
+  glib
+  gmp
+  gnupg
+  gnupg2
+  gpg-agent
+  isl
+  jpeg
+  jq
+  libassuan
+  libffi
+  libgcrypt
+  libgpg-error
+  libksba
+  libmpc
+  libpng
+  libtiff
+  libtool
+  libusb
+  libusb-compat
+  libwebsockets
+  libyaml
   mackup
-  macvim
-  mas
-  micro
-  mtr
-  ncdu
-  nmap
-  node
-  poppler
-  postgresql
-  pgcli
-  python
-  python3
-  osquery
-  scala
-  sbt
-  stormssh
-  thefuck
-  tmux
-  tree
-  trash
+  mosquitto
+  mpfr
+  nvm
+  oniguruma
+  openssl
+  pcre
+  pinentry
+  pixman
+  pkg-config
+  pth
+  rbenv
+  readline
+  ruby-build
+  unrar
   wget
+  xz
+  zeromq
+  zlib
 )
 
 casks=(
-  adobe-reader
-  airdroid
   atom
-  betterzipql
-  cakebrew
-  cleanmymac
-  commander-one
-  datagrip
+  cyberduck
   docker
   dropbox
-  firefox
-  geekbench
+  etcher
+  evernote
+  flux
+  flycut
   google-chrome
-  google-drive
-  github-desktop
-  hosts
-  handbrake
-  intellij-idea
+  insync
   istat-menus
-  istat-server  
-  launchrocket
-  licecap
-  iterm2
-  qlcolorcode
-  qlmarkdown
-  qlstephen
-  quicklook-json
-  quicklook-csv
-  macdown
-  microsoft-office
-  plex-home-theater
-  plex-media-server
-  private-eye
-  satellite-eyes
-  sidekick
+  lastpass
+  omnigraffle
+  skitch
   skype
   slack
-  sling
+  sourcetree
+  spectacle
   spotify
-  steam
-  teleport
+  the-unarchiver
   transmission
-  transmission-remote-gui
-  tunnelbear
+  virtualbox
+  virtualbox-extension-pack
   vlc
-  volumemixer
-  webstorm
-  xquartz
-)
-
-pips=(
-  pip
-  glances
-  ohmu
-  pythonpy
-)
-
-gems=(
-  bundle
 )
 
 npms=(
-  fenix-cli
-  gitjk
-  kill-tabs
-  n
-  nuclide-installer
+  bower
+  cordova
+  evrythng
+  evrythng-extended
+  gulp
+  gulp-cli
+  http-server
+  ionic
+  ios-deploy
+  ios-sim
+  netlify-cli
+  typings
+  webpack
 )
 
 clibs=(
-  bpkg/bpkg
 )
 
 bkpgs=(
 )
 
-gpg_key='3E219504'
 git_configs=(
-  "branch.autoSetupRebase always"
-  "color.ui auto"
-  "core.autocrlf input"
-  "core.pager cat"
-  "credential.helper osxkeychain"
-  "merge.ff false"
-  "pull.rebase true"
-  "push.default simple"
-  "rebase.autostash true"
-  "rerere.autoUpdate true"
-  "rerere.enabled true"
-  "user.name pathikrit"
-  "user.email pathikritbhowmick@msn.com"
-  "user.signingkey ${gpg_key}"
+
 )
 
 apms=(
   atom-beautify
-  circle-ci
-  ensime
-  intellij-idea-keymap
-  language-scala
+  atom-bootstrap3
+  atom-html-preview
+  auto-update-packages
+  compare-files
+  config-import-export
+  copy-as-rtf
+  editorconfig
+  filesize
+  highlight-selected
+  hyperclick
+  js-hyperclick
+  language-docker
+  linter
+  linter-eslint
   minimap
+  script
+  terminal-plus
 )
 
 fonts=(
-  font-source-code-pro
 )
 
 omfs=(
-  jacaetevha
-  osx
-  thefuck
 )
 
 ######################################## End of app list ########################################
 set +e
-set -x
+#set -x
 
 if test ! $(which brew); then
   echo "Installing Xcode ..."
@@ -178,7 +159,12 @@ else
   brew upgrade
 fi
 brew doctor
+
+echo "Tapping casks ..."
+#brew tap caskroom/fonts
+brew tap caskroom/versions
 brew tap homebrew/dupes
+brew tap caskroom/cask
 
 fails=()
 
@@ -206,39 +192,39 @@ function install {
 
 echo "Installing ruby ..."
 ruby -v
-brew install gpg
-gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
 curl -sSL https://get.rvm.io | bash -s stable
-ruby_version='2.6.0'
+
 rvm install ${ruby_version}
 rvm use ${ruby_version} --default
 ruby -v
 sudo gem update --system
 
-echo "Installing Java ..."
+#echo "Installing Java ..."
 brew cask install java
 
 echo "Installing packages ..."
 brew info ${brews[@]}
 install 'brew install' ${brews[@]}
 
-echo "Tapping casks ..."
-brew tap caskroom/fonts
-brew tap caskroom/versions
-
 echo "Installing software ..."
 brew cask info ${casks[@]}
 install 'brew cask install' ${casks[@]}
 
+# TODO:  Fix this
+#echo "Installing Node ..."
+#nvm install ${node_version}
+#nvm alias default ${node_version}
+#nvm use default
+
 echo "Installing secondary packages ..."
 # TODO: add info part of install or do reinstall?
-install 'pip install --upgrade' ${pips[@]}
-install 'gem install' ${gems[@]}
-install 'clib install' ${clibs[@]}
-install 'bpkg install' ${bpkgs[@]}
+#install 'pip install --upgrade' ${pips[@]}
+#install 'gem install' ${gems[@]}
+#install 'clib install' ${clibs[@]}
+#install 'bpkg install' ${bpkgs[@]}
 install 'npm install --global' ${npms[@]}
 install 'apm install' ${apms[@]}
-install 'brew cask install' ${fonts[@]}
+#install 'brew cask install' ${fonts[@]}
 
 echo "Upgrading bash ..."
 brew install bash
@@ -249,18 +235,18 @@ mv ~/.gitconfig ~/.gitconfig_backup
 cd; curl -#L https://github.com/barryclark/bashstrap/tarball/master | tar -xzv --strip-components 1 --exclude={README.md,screenshot.png}
 source ~/.bash_profile
 
-echo "Setting git defaults ..."
-for config in "${git_configs[@]}"
-do
-  git config --global ${config}
-done
-gpg --keyserver hkp://pgp.mit.edu --recv ${gpg_key}
+#echo "Setting git defaults ..."
+#for config in "${git_configs[@]}"
+#do
+#  git config --global ${config}
+#done
+#gpg --keyserver hkp://pgp.mit.edu --recv ${gpg_key}
 
 echo "Installing mac CLI ..."
 # Note: Say NO to bash-completions since we have fzf!
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/guarinogabriel/mac-cli/master/mac-cli/tools/install)"
 
-echo "Updating ..."
+echo "Final Updating ..."
 pip3 install --upgrade pip setuptools wheel
 mac update
 
@@ -274,18 +260,5 @@ do
 done
 
 echo "Run `mackup restore` after DropBox has done syncing"
-
-#echo "Setting up fish shell ..."
-#brew install fish chruby-fish
-#echo $(which fish) | sudo tee -a /etc/shells
-#mkdir -p ~/.config/fish/
-#echo "source /usr/local/share/chruby/chruby.fish" >> ~/.config/fish/config.fish
-#echo "source /usr/local/share/chruby/auto.fish" >> ~/.config/fish/config.fish
-#chsh -s $(which fish)
-#curl -L https://github.com/oh-my-fish/oh-my-fish/raw/master/bin/install | fish
-#for omf in ${omfs[@]}
-#do
-#  fish -c "omf install ${omf}"
-#done
 
 echo "Done!"
