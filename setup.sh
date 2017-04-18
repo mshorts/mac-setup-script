@@ -73,7 +73,6 @@ casks=(
   flux
   flycut
   google-chrome
-  insync
   istat-menus
   lastpass
   omnigraffle
@@ -129,6 +128,8 @@ apms=(
   minimap
   script
   terminal-plus
+  tool-bar
+  tool-bar-almighty
 )
 
 ######################################## End of app list ########################################
