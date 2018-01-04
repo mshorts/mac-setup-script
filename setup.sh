@@ -66,16 +66,15 @@ brews=(
 casks=(
   atom
   cyberduck
-  docker
   dropbox
   etcher
   evernote
-  flux
   flycut
   google-chrome
   istat-menus
   lastpass
   omnigraffle
+  postman
   skitch
   skype
   slack
