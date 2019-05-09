@@ -11,16 +11,13 @@ brews=(
 
 casks=(
   atom
+  balenaetcher
   cyberduck
   dropbox
-  etcher
   evernote
   google-chrome
   istat-menus
-  lastpass
   postman
-  skitch
-  slack
   spectacle
   spotify
   vlc
